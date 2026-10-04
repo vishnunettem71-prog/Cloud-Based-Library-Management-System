@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Cloud-Based Library Management System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 25px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* BUTTONS */
+
+        button {
+            border: none;
+            padding: 10px 17px;
+            border-radius: 7px;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            margin: 3px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .green {
+            background: #16a34a;
+        }
+
+        .green:hover {
+            background: #15803d;
+        }
+
+        .red {
+            background: #dc2626;
+        }
+
+        .red:hover {
+            background: #b91c1c;
+        }
+
+        .orange {
+            background: #ea580c;
+        }
+
+        .gray {
+            background: #64748b;
+        }
+
+        /* LOGIN */
+
+        #loginPage {
+            display: block;
+        }
+
+        .login-box {
+            width: 400px;
+            max-width: 90%;
+            margin: 70px auto;
+
+            background: white;
+            padding: 30px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.12);
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* DASHBOARD */
+
+        #dashboard {
+            display: none;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 25px auto;
+        }
+
+        .welcome {
+            background: white;
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 15px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+        }
+
+        /* STATISTICS */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        .stat {
+            color: white;
+            padding: 25px;
+            border-radius: 14px;
+        }
+
+        .stat:nth-child(1) {
+            background: #2563eb;
+        }
+
+        .stat:nth-child(2) {
+            background: #16a34a;
+        }
+
+        .stat:nth-child(3) {
+            background: #9333ea;
+        }
+
+        .stat:nth-child(4) {
+            background: #ea580c;
+        }
+
+        .stat h2 {
+            margin-top: 10px;
+            font-size: 28px;
+        }
+
+        /* FORMS */
+
+        .form-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 15px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+        }
+
+        /* SEARCH */
+
+        .section-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            margin-bottom: 15px;
+        }
+
+        .search {
+            max-width: 350px;
+        }
+
+        /* TABLE */
+
+        .table-section {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 15px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #cbd5e1;
+
+            padding: 11px;
+
+            text-align: center;
+        }
+
+        th {
+            background: #172554;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .available {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .issued {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .overdue {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .fine {
+            color: #ea580c;
+            font-weight: bold;
+        }
+
+        /* TABS */
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .tab.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 850px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search {
+                max-width: 100%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+        }
+
+        @media(max-width: 500px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <h1>☁ CloudLibrary</h1>
+
+    <div
+        class="header-right"
+        id="headerUser"
+        style="display:none;"
+    >
+
+        <span>
+            Admin
+        </span>
+
+        <button
+            class="red"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div id="loginPage">
+
+    <div class="login-box">
+
+        <h2>
+            🔐 Library Admin Login
+        </h2>
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Username"
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Password"
+        >
+
+        <button
+            onclick="login()"
+            style="width:100%;"
+        >
+            Login
+        </button>
+
+        <p
+            id="loginMessage"
+            class="message"
+        ></p>
+
+        <br>
+
+        <p>
+            <b>Demo Login</b><br>
+            Username: admin<br>
+            Password: 1234
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div
+    class="container"
+    id="dashboard"
+>
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h2>
+            📚 Cloud Library Dashboard
+        </h2>
+
+        <p>
+            Manage books, members, issues,
+            returns and fines.
+        </p>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <p>
+                Total Books
+            </p>
+
+            <h2 id="totalBooks">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="stat">
+
+            <p>
+                Available Books
+            </p>
+
+            <h2 id="availableBooks">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="stat">
+
+            <p>
+                Issued Books
+            </p>
+
+            <h2 id="issuedBooks">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="stat">
+
+            <p>
+                Total Members
+            </p>
+
+            <h2 id="totalMembers">
+                0
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- TABS -->
+
+    <div class="tabs">
+
+        <button
+            class="tab active"
+            onclick="showSection('books', this)"
+        >
+            📚 Books
+        </button>
+
+        <button
+            class="tab"
+            onclick="showSection('members', this)"
+        >
+            👨‍🎓 Members
+        </button>
+
+        <button
+            class="tab"
+            onclick="showSection('issues', this)"
+        >
+            📋 Issue / Return
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         BOOK SECTION
+    ================================================= -->
+
+    <div id="booksSection">
+
+        <div class="form-section">
+
+            <h2>
+                ➕ Add New Book
+            </h2>
+
+            <div class="form-grid">
+
+                <input
+                    type="text"
+                    id="bookTitle"
+                    placeholder="Book Title"
+                >
+
+                <input
+                    type="text"
+                    id="bookAuthor"
+                    placeholder="Author Name"
+                >
+
+                <input
+                    type="text"
+                    id="bookISBN"
+                    placeholder="ISBN"
+                >
+
+            </div>
+
+            <button
+                class="green"
+                onclick="addBook()"
+            >
+                Add Book
+            </button>
+
+            <p
+                id="bookMessage"
+                class="message"
+            ></p>
+
+        </div>
+
+
+        <div class="table-section">
+
+            <div class="section-header">
+
+                <h2>
+                    📚 Book Collection
+                </h2>
+
+                <input
+                    class="search"
+                    type="text"
+                    id="bookSearch"
+                    placeholder="🔍 Search books..."
+                    onkeyup="displayBooks()"
+                >
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Title
+                        </th>
+
+                        <th>
+                            Author
+                        </th>
+
+                        <th>
+                            ISBN
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody
+                    id="bookTable"
+                >
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         MEMBERS SECTION
+    ================================================= -->
+
+    <div
+        id="membersSection"
+        style="display:none;"
+    >
+
+        <div class="form-section">
+
+            <h2>
+                ➕ Add Library Member
+            </h2>
+
+            <div class="form-grid">
+
+                <input
+                    type="text"
+                    id="memberName"
+                    placeholder="Student Name"
+                >
+
+                <input
+                    type="text"
+                    id="memberRoll"
+                    placeholder="Roll Number"
+                >
+
+                <input
+                    type="text"
+                    id="memberDepartment"
+                    placeholder="Department"
+                >
+
+            </div>
+
+            <button
+                class="green"
+                onclick="addMember()"
+            >
+                Add Member
+            </button>
+
+            <p
+                id="memberMessage"
+                class="message"
+            ></p>
+
+        </div>
+
+
+        <div class="table-section">
+
+            <h2>
+                👨‍🎓 Library Members
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Roll Number
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody
+                    id="memberTable"
+                >
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         ISSUE / RETURN SECTION
+    ================================================= -->
+
+    <div
+        id="issuesSection"
+        style="display:none;"
+    >
+
+        <div class="form-section">
+
+            <h2>
+                📖 Issue Book
+            </h2>
+
+            <div class="form-grid">
+
+                <select id="issueBook">
+
+                    <option value="">
+                        Select Book
+                    </option>
+
+                </select>
+
+
+                <select id="issueMember">
+
+                    <option value="">
+                        Select Member
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="number"
+                    id="issueDays"
+                    value="7"
+                    min="1"
+                    placeholder="Days"
+                >
+
+            </div>
+
+            <button
+                class="green"
+                onclick="issueBook()"
+            >
+                Issue Book
+            </button>
+
+            <p
+                id="issueMessage"
+                class="message"
+            ></p>
+
+        </div>
+
+
+        <div class="table-section">
+
+            <h2>
+                📋 Issue Records
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Book
+                        </th>
+
+                        <th>
+                            Member
+                        </th>
+
+                        <th>
+                            Issue Date
+                        </th>
+
+                        <th>
+                            Due Date
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Fine
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody
+                    id="issueTable"
+                >
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+// =====================================================
+// DATA
+// =====================================================
+
+let libraryData =
+    JSON.parse(
+        localStorage.getItem(
+            "cloudLibrary"
+        )
+    ) || {
+
+        books: [
+
+            {
+                id: 1,
+                title: "Python Programming",
+                author: "Guido van Rossum",
+                isbn: "ISBN001",
+                status: "Available"
+            },
+
+            {
+                id: 2,
+                title: "Database Management Systems",
+                author: "Raghu Ramakrishnan",
+                isbn: "ISBN002",
+                status: "Available"
+            },
+
+            {
+                id: 3,
+                title: "Computer Networks",
+                author: "Andrew S. Tanenbaum",
+                isbn: "ISBN003",
+                status: "Available"
+            }
+
+        ],
+
+        members: [
+
+            {
+                id: 1,
+                name: "Rahul Kumar",
+                roll: "101",
+                department: "CSE"
+            },
+
+            {
+                id: 2,
+                name: "Priya Sharma",
+                roll: "102",
+                department: "CSE"
+            }
+
+        ],
+
+        issues: []
+
+    };
+
+
+// =====================================================
+// LOGIN
+// =====================================================
+
+function login() {
+
+    let username =
+        document.getElementById(
+            "username"
+        ).value;
+
+    let password =
+        document.getElementById(
+            "password"
+        ).value;
+
+
+    if (
+        username === "admin" &&
+        password === "1234"
+    ) {
+
+        document.getElementById(
+            "loginPage"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "dashboard"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "headerUser"
+        ).style.display = "flex";
+
+
+        updateDashboard();
+
+    }
+
+    else {
+
+        document.getElementById(
+            "loginMessage"
+        ).innerText =
+            "❌ Invalid username or password.";
+
+    }
+
+}
+
+
+// =====================================================
+// LOGOUT
+// =====================================================
+
+function logout() {
+
+    document.getElementById(
+        "dashboard"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "headerUser"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "loginPage"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "username"
+    ).value = "";
+
+
+    document.getElementById(
+        "password"
+    ).value = "";
+
+}
+
+
+// =====================================================
+// ADD BOOK
+// =====================================================
+
+function addBook() {
+
+    let title =
+        document.getElementById(
+            "bookTitle"
+        ).value.trim();
+
+
+    let author =
+        document.getElementById(
+            "bookAuthor"
+        ).value.trim();
+
+
+    let isbn =
+        document.getElementById(
+            "bookISBN"
+        ).value.trim();
+
+
+    if (
+        title === "" ||
+        author === "" ||
+        isbn === ""
+    ) {
+
+        document.getElementById(
+            "bookMessage"
+        ).innerText =
+            "❌ Please fill all book details.";
+
+        return;
+
+    }
+
+
+    let existing =
+        libraryData.books.find(
+            book =>
+                book.isbn === isbn
+        );
+
+
+    if (existing) {
+
+        document.getElementById(
+            "bookMessage"
+        ).innerText =
+            "❌ Book with this ISBN already exists.";
+
+        return;
+
+    }
+
+
+    libraryData.books.push({
+
+        id:
+            Date.now(),
+
+        title:
+            title,
+
+        author:
+            author,
+
+        isbn:
+            isbn,
+
+        status:
+            "Available"
+
+    });
+
+
+    saveData();
+
+
+    document.getElementById(
+        "bookTitle"
+    ).value = "";
+
+
+    document.getElementById(
+        "bookAuthor"
+    ).value = "";
+
+
+    document.getElementById(
+        "bookISBN"
+    ).value = "";
+
+
+    document.getElementById(
+        "bookMessage"
+    ).innerText =
+        "✅ Book added successfully.";
+
+
+    updateDashboard();
+
+}
+
+
+// =====================================================
+// DISPLAY BOOKS
+// =====================================================
+
+function displayBooks() {
+
+    let table =
+        document.getElementById(
+            "bookTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    let search =
+        document.getElementById(
+            "bookSearch"
+        ).value.toLowerCase();
+
+
+    let books =
+        libraryData.books.filter(
+            book =>
+
+                book.title
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                book.author
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                book.isbn
+                    .toLowerCase()
+                    .includes(search)
+
+        );
+
+
+    books.forEach(
+        book => {
+
+
+            let row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${book.id}
+                </td>
+
+                <td>
+                    ${book.title}
+                </td>
+
+                <td>
+                    ${book.author}
+                </td>
+
+                <td>
+                    ${book.isbn}
+                </td>
+
+                <td class="${
+                    book.status === "Available"
+                    ? "available"
+                    : "issued"
+                }">
+
+                    ${book.status}
+
+                </td>
+
+                <td>
+
+                    ${
+                        book.status === "Available"
+
+                        ?
+
+                        `<button
+                            class="red"
+                            onclick="deleteBook(${book.id})"
+                        >
+                            Delete
+                        </button>`
+
+                        :
+
+                        `<span>
+                            Book Issued
+                        </span>`
+                    }
+
+                </td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// DELETE BOOK
+// =====================================================
+
+function deleteBook(id) {
+
+    let book =
+        libraryData.books.find(
+            b => b.id === id
+        );
+
+
+    if (
+        !book ||
+        book.status !== "Available"
+    ) {
+
+        alert(
+            "Issued books cannot be deleted."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !confirm(
+            "Delete this book?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    libraryData.books =
+        libraryData.books.filter(
+            b => b.id !== id
+        );
+
+
+    saveData();
+
+    updateDashboard();
+
+}
+
+
+// =====================================================
+// ADD MEMBER
+// =====================================================
+
+function addMember() {
+
+    let name =
+        document.getElementById(
+            "memberName"
+        ).value.trim();
+
+
+    let roll =
+        document.getElementById(
+            "memberRoll"
+        ).value.trim();
+
+
+    let department =
+        document.getElementById(
+            "memberDepartment"
+        ).value.trim();
+
+
+    if (
+        name === "" ||
+        roll === "" ||
+        department === ""
+    ) {
+
+        document.getElementById(
+            "memberMessage"
+        ).innerText =
+            "❌ Please fill all member details.";
+
+        return;
+
+    }
+
+
+    let existing =
+        libraryData.members.find(
+            member =>
+                member.roll === roll
+        );
+
+
+    if (existing) {
+
+        document.getElementById(
+            "memberMessage"
+        ).innerText =
+            "❌ Member already exists.";
+
+        return;
+
+    }
+
+
+    libraryData.members.push({
+
+        id:
+            Date.now(),
+
+        name:
+            name,
+
+        roll:
+            roll,
+
+        department:
+            department
+
+    });
+
+
+    saveData();
+
+
+    document.getElementById(
+        "memberName"
+    ).value = "";
+
+
+    document.getElementById(
+        "memberRoll"
+    ).value = "";
+
+
+    document.getElementById(
+        "memberDepartment"
+    ).value = "";
+
+
+    document.getElementById(
+        "memberMessage"
+    ).innerText =
+        "✅ Member added successfully.";
+
+
+    updateDashboard();
+
+}
+
+
+// =====================================================
+// DISPLAY MEMBERS
+// =====================================================
+
+function displayMembers() {
+
+    let table =
+        document.getElementById(
+            "memberTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    libraryData.members.forEach(
+        member => {
+
+
+            let row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${member.id}
+                </td>
+
+                <td>
+                    ${member.name}
+                </td>
+
+                <td>
+                    ${member.roll}
+                </td>
+
+                <td>
+                    ${member.department}
+                </td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// LOAD ISSUE OPTIONS
+// =====================================================
+
+function loadIssueOptions() {
+
+    let bookSelect =
+        document.getElementById(
+            "issueBook"
+        );
+
+
+    let memberSelect =
+        document.getElementById(
+            "issueMember"
+        );
+
+
+    bookSelect.innerHTML = `
+
+        <option value="">
+            Select Book
+        </option>
+
+    `;
+
+
+    memberSelect.innerHTML = `
+
+        <option value="">
+            Select Member
+        </option>
+
+    `;
+
+
+    libraryData.books
+        .filter(
+            book =>
+                book.status === "Available"
+        )
+        .forEach(
+            book => {
+
+                let option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    book.id;
+
+
+                option.textContent =
+                    book.title;
+
+
+                bookSelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+    libraryData.members.forEach(
+        member => {
+
+            let option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                member.id;
+
+
+            option.textContent =
+                member.name
+                + " - "
+                + member.roll;
+
+
+            memberSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// ISSUE BOOK
+// =====================================================
+
+function issueBook() {
+
+    let bookId =
+        Number(
+            document.getElementById(
+                "issueBook"
+            ).value
+        );
+
+
+    let memberId =
+        Number(
+            document.getElementById(
+                "issueMember"
+            ).value
+        );
+
+
+    let days =
+        Number(
+            document.getElementById(
+                "issueDays"
+            ).value
+        );
+
+
+    if (
+        !bookId ||
+        !memberId ||
+        days <= 0
+    ) {
+
+        document.getElementById(
+            "issueMessage"
+        ).innerText =
+            "❌ Select book, member and valid days.";
+
+        return;
+
+    }
+
+
+    let book =
+        libraryData.books.find(
+            b => b.id === bookId
+        );
+
+
+    let member =
+        libraryData.members.find(
+            m => m.id === memberId
+        );
+
+
+    if (
+        !book ||
+        !member ||
+        book.status !== "Available"
+    ) {
+
+        return;
+
+    }
+
+
+    let issueDate =
+        new Date();
+
+
+    let dueDate =
+        new Date();
+
+
+    dueDate.setDate(
+        dueDate.getDate() + days
+    );
+
+
+    libraryData.issues.push({
+
+        id:
+            Date.now(),
+
+        bookId:
+            bookId,
+
+        memberId:
+            memberId,
+
+        issueDate:
+            issueDate.toISOString(),
+
+        dueDate:
+            dueDate.toISOString(),
+
+        returned:
+            false,
+
+        returnDate:
+            null
+
+    });
+
+
+    book.status =
+        "Issued";
+
+
+    saveData();
+
+
+    document.getElementById(
+        "issueMessage"
+    ).innerText =
+        "✅ Book issued successfully.";
+
+
+    updateDashboard();
+
+}
+
+
+// =====================================================
+// DISPLAY ISSUES
+// =====================================================
+
+function displayIssues() {
+
+    let table =
+        document.getElementById(
+            "issueTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    libraryData.issues
+        .slice()
+        .reverse()
+        .forEach(
+            issue => {
+
+
+                let book =
+                    libraryData.books.find(
+                        b =>
+                            b.id === issue.bookId
+                    );
+
+
+                let member =
+                    libraryData.members.find(
+                        m =>
+                            m.id === issue.memberId
+                    );
+
+
+                if (!book || !member) {
+                    return;
+                }
+
+
+                let due =
+                    new Date(
+                        issue.dueDate
+                    );
+
+
+                let today =
+                    new Date();
+
+
+                let overdue =
+                    !issue.returned &&
+                    today > due;
+
+
+                let fine =
+                    calculateFine(
+                        issue
+                    );
+
+
+                let row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${book.title}
+                    </td>
+
+                    <td>
+                        ${member.name}
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            issue.issueDate
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            issue.dueDate
+                        )}
+                    </td>
+
+                    <td class="${
+                        issue.returned
+                        ? "available"
+                        : overdue
+                        ? "overdue"
+                        : "issued"
+                    }">
+
+                        ${
+                            issue.returned
+                            ? "Returned"
+                            : overdue
+                            ? "Overdue"
+                            : "Issued"
+                        }
+
+                    </td>
+
+                    <td class="fine">
+
+                        ₹${fine}
+
+                    </td>
+
+                    <td>
+
+                        ${
+                            !issue.returned
+
+                            ?
+
+                            `<button
+                                class="green"
+                                onclick="returnBook(${issue.id})"
+                            >
+                                Return
+                            </button>`
+
+                            :
+
+                            `<span>
+                                ✓ Completed
+                            </span>`
+                        }
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            }
+        );
+
+}
+
+
+// =====================================================
+// RETURN BOOK
+// =====================================================
+
+function returnBook(issueId) {
+
+    let issue =
+        libraryData.issues.find(
+            i =>
+                i.id === issueId
+        );
+
+
+    if (
+        !issue ||
+        issue.returned
+    ) {
+
+        return;
+
+    }
+
+
+    issue.returned =
+        true;
+
+
+    issue.returnDate =
+        new Date().toISOString();
+
+
+    let book =
+        libraryData.books.find(
+            b =>
+                b.id === issue.bookId
+        );
+
+
+    if (book) {
+
+        book.status =
+            "Available";
+
+    }
+
+
+    saveData();
+
+
+    updateDashboard();
+
+}
+
+
+// =====================================================
+// CALCULATE FINE
+// =====================================================
+
+function calculateFine(issue) {
+
+    if (issue.returned) {
+
+        if (!issue.returnDate) {
+            return 0;
+        }
+
+
+        let returnDate =
+            new Date(
+                issue.returnDate
+            );
+
+
+        let dueDate =
+            new Date(
+                issue.dueDate
+            );
+
+
+        if (
+            returnDate <= dueDate
+        ) {
+
+            return 0;
+
+        }
+
+
+        let days =
+            Math.ceil(
+                (
+                    returnDate -
+                    dueDate
+                )
+                /
+                (
+                    1000 *
+                    60 *
+                    60 *
+                    24
+                )
+            );
+
+
+        return days * 5;
+
+    }
+
+
+    let today =
+        new Date();
+
+
+    let due =
+        new Date(
+            issue.dueDate
+        );
+
+
+    if (
+        today <= due
+    ) {
+
+        return 0;
+
+    }
+
+
+    let days =
+        Math.ceil(
+            (
+                today - due
+            )
+            /
+            (
+                1000 *
+                60 *
+                60 *
+                24
+            )
+        );
+
+
+    return days * 5;
+
+}
+
+
+// =====================================================
+// FORMAT DATE
+// =====================================================
+
+function formatDate(date) {
+
+    return new Date(date)
+        .toLocaleDateString();
+
+}
+
+
+// =====================================================
+// DASHBOARD
+// =====================================================
+
+function updateDashboard() {
+
+    let total =
+        libraryData.books.length;
+
+
+    let available =
+        libraryData.books.filter(
+            b =>
+                b.status === "Available"
+        ).length;
+
+
+    let issued =
+        libraryData.books.filter(
+            b =>
+                b.status === "Issued"
+        ).length;
+
+
+    document.getElementById(
+        "totalBooks"
+    ).innerText =
+        total;
+
+
+    document.getElementById(
+        "availableBooks"
+    ).innerText =
+        available;
+
+
+    document.getElementById(
+        "issuedBooks"
+    ).innerText =
+        issued;
+
+
+    document.getElementById(
+        "totalMembers"
+    ).innerText =
+        libraryData.members.length;
+
+
+    displayBooks();
+
+    displayMembers();
+
+    displayIssues();
+
+    loadIssueOptions();
+
+}
+
+
+// =====================================================
+// TABS
+// =====================================================
+
+function showSection(
+    section,
+    button
+) {
+
+    document.getElementById(
+        "booksSection"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "membersSection"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "issuesSection"
+    ).style.display = "none";
+
+
+    document.querySelectorAll(
+        ".tab"
+    ).forEach(
+        tab =>
+            tab.classList.remove(
+                "active"
+            )
+    );
+
+
+    button.classList.add(
+        "active"
+    );
+
+
+    if (
+        section === "books"
+    ) {
+
+        document.getElementById(
+            "booksSection"
+        ).style.display = "block";
+
+    }
+
+
+    if (
+        section === "members"
+    ) {
+
+        document.getElementById(
+            "membersSection"
+        ).style.display = "block";
+
+    }
+
+
+    if (
+        section === "issues"
+    ) {
+
+        document.getElementById(
+            "issuesSection"
+        ).style.display = "block";
+
+    }
+
+}
+
+
+// =====================================================
+// SAVE DATA
+// =====================================================
+
+function saveData() {
+
+    localStorage.setItem(
+        "cloudLibrary",
+        JSON.stringify(
+            libraryData
+        )
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>
